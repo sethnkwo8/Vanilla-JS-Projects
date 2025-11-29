@@ -58,10 +58,10 @@ vanilla-js-projects/
 ---
 
 ### **2. Movie Search App**
- - ✔️ Add task
- - ✔️ Delete task
- - ✔️ Mark as done
- - ✔️ Save & load from LocalStorage
+ - ✔️ Uses Fetch API
+ - ✔️ Async/Await
+ - ✔️ Event Loop
+ - ✔️ Search movies using OMDb API
  - ✔️ Clean Tailwind UI
 
 ---
@@ -83,13 +83,11 @@ vanilla-js-projects/
 ---
 
 ### **5. Notes App**
-5. Notes App
-
- - ✔️ Add task
- - ✔️ Delete task
- - ✔️ Mark as done
- - ✔️ Save & load from LocalStorage
- - ✔️ Clean Tailwind UI
+ - ✔️ Add note
+ - ✔️ Delete note
+ - ✔️ Edit note
+ - ✔️ Save notes to LocalStorage
+ - ✔️ Search notes
 
 # 🚀 How to Run
 
