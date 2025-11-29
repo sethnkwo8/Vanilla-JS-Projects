@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+dist/
+build/
+public/build/
+public/output.css
+output.css
+
+# Optional: ignore all compiled CSS if you're generating from Tailwind
+*.css.map
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# MacOS junk
+.DS_Store
+
+# Windows junk
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Cache
+.cache/
+.parcel-cache/
