@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-blue: rgb(46, 104, 171, 100);
+    --color-light-blue : rgb(227, 243, 254, 100);
+}
+
+@utility add-task{
+    @apply hidden w-3/4 p-8 rounded-lg shadow-xl;
+}
+
+@utility task-card{
+    @apply bg-[#EFEFEF] rounded-lg p-4 flex flex-row items-center justify-between text-center mx-8 md:mx-20 my-4 hover:bg-gray-300 hover:scale-105 transition-all duration-300 ease-in-out;
+}

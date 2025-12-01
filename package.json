@@ -1,0 +1,25 @@
+{
+  "name": "vanilla-js-projects",
+  "version": "1.0.0",
+  "description": "This repository contains a collection of small and medium-sized vanilla JavaScript projects. The goal is to practice all the core JavaScript concepts before moving into React — including DOM manipulation, Events, JSON/localStorage, Promises, Async/Await, Modules, and more.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sethnkwo8/Vanilla-JS-Projects.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sethnkwo8/Vanilla-JS-Projects/issues"
+  },
+  "homepage": "https://github.com/sethnkwo8/Vanilla-JS-Projects#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
+  }
+}
