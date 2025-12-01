@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
         // Create new Task
-        const newTask = { name: taskName.value, description: taskDescription.value };
+        const newTask = { id: Date.now(), name: taskName.value, description: taskDescription.value };
 
         // Add to array
         savedTasks.push(newTask);
@@ -57,6 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
         taskDescription.value = '';
     })
 
+    // Event listener for deleting task
+
+    tasksList.addEventListener('click', function (e) {
+        if (e.target.matches('.deleteBtn')) {
+            const id = Number(e.target.dataset.id);
+
+            const tasks = loadTasks() || [];
+            const updated = tasks.filter(task => task.id !== id);
+
+            localStorage.setItem('tasks', JSON.stringify(updated));
+            loadAndDisplayTasks();
+        }
+    });
+
     // Function to get tasks from localStorage
     function loadTasks() {
         return JSON.parse(localStorage.getItem('tasks'));
@@ -79,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class='text-base'>${task.description}</p>
             </div>
             <div>
-                <button class='bg-red-500 text-white py-3 px-6 rounded-lg hover:scale-105 transition-all duration-300 ease-in-out'>Delete</button>
+                <button class='deleteBtn' data-id='${task.id}'>Delete</button>
             </div>
             `
             tasksList.appendChild(taskDiv);
