@@ -15,6 +15,9 @@
     </header>
     <main class="w-full flex flex-col space-y-4">
         <div class="add-task" id="add-task">
+            <div class="flex flex-row justify-start items-center mx-20 w-full">
+                <a id="back" class="text-blue text-xl hover:underline" href="#">Back</a>
+            </div>
             <h1 class="text-3xl font-bold">Add Task</h1>
             <form id="form" class="w-full flex flex-col p-6 space-y-6 items-center justify-center" action="#">
                 <div class="w-full">
@@ -36,7 +39,7 @@
             </form>
         </div>
         <div id="tasks" class="flex flex-col space-y-4">
-            <div class="flex flex-row z-10 items-center justify-between mx-10 md:mx-32">
+            <div class="flex flex-row items-center justify-between mx-10 md:mx-32">
                 <div class="text-2xl px-8 text-center">
                     <p>My Day</p>
                     <p>December 2025</p>
@@ -45,6 +48,12 @@
                     class="bg-light-blue rounded-lg py-3 px-6 text-blue hover:scale-105 hover:bg-blue hover:text-light-blue transition ease-in-out duration-300  text-xl">
                     + New Task
                 </button>
+            </div>
+            <div id="tasksCompleted" class="text-center">
+                Tasks Completed:
+            </div>
+            <div class="mx-6 md:mx-24 text-blue hover:underline text-xl">
+                <a id="markAll" href="#">Mark all</a>
             </div>
             <div id="tasks-list">
 
