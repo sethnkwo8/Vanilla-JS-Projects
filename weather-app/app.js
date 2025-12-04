@@ -7,9 +7,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener to search for weather details through form submission
     weatherSearchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const data = await weatherRequest(weatherSearchInput.value, apiKey); // Run fetch function
+
+        // Run fetch function
+        const data = await weatherRequest(weatherSearchInput.value, apiKey);
+        if (!data) return;
         localStorage.setItem('lastSearch', weatherSearchInput.value); // Save last search
         weatherSearchInput.value = '';
+
+        displayResults(data); // Display results
+    });
+
+    const resultsSearchForm = document.querySelector('#resultsSearchForm');
+    const resultsSearchInput = document.querySelector('#resultsSearchInput');
+    const results = document.querySelector('#results');
+
+    resultsSearchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Display loading spinner
+        loading.classList.remove('hidden');
+        loading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
+        home.classList.add('hidden');
+        results.classList.add('hidden');
+
+        // Run fetch function
+        const data = await weatherRequest(resultsSearchInput.value, apiKey);
+        if (!data) return;
+        localStorage.setItem('lastSearch', resultsSearchInput.value); // Save last search
+        resultsSearchInput.value = '';
+
+        // Hide loading spinner
+        loading.classList.add('hidden');
+        loading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
 
         displayResults(data); // Display results
     });
@@ -34,9 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const resultsSearchForm = document.querySelector('#resultsSearchForm');
-    const resultsSearchInput = document.querySelector('#resultsSearchInput');
-    const results = document.querySelector('#results');
     const home = document.querySelector('#home');
     const cityName = document.querySelector('#cityName');
     const temperature = document.querySelector('#temperature');
@@ -44,10 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to display weather results
     function displayResults(data) {
+
+        // Remove previous info cards if the exist
+        const oldInfo = document.querySelector('#info-cards');
+        if (oldInfo) oldInfo.remove();
+
         document.body.classList.remove('justify-center');
         home.classList.add('hidden');
         results.classList.remove('hidden');
         results.classList.add('flex', 'flex-col', 'space-y-4', 'items-center');
+
+        // Clear Previous Info
+        cityName.textContent = "";
+        temperature.innerHTML = "";
+        weatherDescription.textContent = "";
 
         // City name and country
         cityName.textContent = `${data.name}, ${data.sys.country}`;
@@ -74,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create div for info cards
         const info = document.createElement('div');
+        info.id = 'info-cards';
         info.classList.add('flex', 'flex-row', 'items-center', 'justify-between', 'w-1/2');
 
         // Add info cards

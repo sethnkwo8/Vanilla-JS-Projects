@@ -39,10 +39,11 @@
             <h2 class="text-6xl flex items-center justify-center" id="temperature"></h2>
             <p class="text-3xl text-center font-bold italic" id="weatherDescription"></p>
         </div>
+        <div id="loading" class="hidden">
+            <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xl">Fetching weather...</p>
+        </div>
     </main>
-    <!-- <footer>
-        &copy; 2025
-    </footer> -->
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
