@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
         home.classList.add('hidden');
         results.classList.add('hidden');
+        info.classList.add('remove');
 
         // Run fetch function
         const data = await weatherRequest(resultsSearchInput.value, apiKey);
@@ -67,18 +68,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const cityName = document.querySelector('#cityName');
     const temperature = document.querySelector('#temperature');
     const weatherDescription = document.querySelector('#weatherDescription');
+    const info = document.querySelector('#info-cards');
+    const infoSpeed = document.querySelector('#windSpeed');
+    const infoPressure = document.querySelector('#pressure');
+    const infoHumidity = document.querySelector('#humidity');
+    const infoVisibility = document.querySelector('#visibility');
 
     // Function to display weather results
     function displayResults(data) {
 
         // Remove previous info cards if the exist
-        const oldInfo = document.querySelector('#info-cards');
-        if (oldInfo) oldInfo.remove();
+        infoSpeed.textContent = ``;
+        infoPressure.textContent = ``;
+        infoHumidity.textContent = ``;
+        infoVisibility.textContent = ``;
 
         document.body.classList.remove('justify-center');
         home.classList.add('hidden');
         results.classList.remove('hidden');
         results.classList.add('flex', 'flex-col', 'space-y-4', 'items-center');
+        info.classList.remove('hidden');
+        info.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-4', 'gap-6');
 
         // Clear Previous Info
         cityName.textContent = "";
@@ -108,32 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const visibilityMeters = data.visibility;
         const visibilityKm = parseInt(visibilityMeters) / 1000;
 
-        // Create div for info cards
-        const info = document.createElement('div');
-        info.id = 'info-cards';
-        info.classList.add('flex', 'flex-row', 'items-center', 'justify-between', 'w-1/2');
+        // Add info cards details
+        infoSpeed.textContent = `${windSpeedKm} km/h ENE`;
+        infoPressure.textContent = `${pressure} mb/hPa`;
+        infoHumidity.textContent = `${humidity}%`;
+        infoVisibility.textContent = `${visibilityKm}km`;
 
-        // Add info cards
-        info.innerHTML = `
-        <div class='info-card'>
-            <p class='text-lg font-bold'>Wind</p>
-            <p class='text-2xl'>${windSpeedKm} km/h ENE</p>
-        </div>
-        <div class='info-card'>
-            <p class='text-lg font-bold'>Pressure</p>
-            <p class='text-2xl'>${pressure} mb/hPa</p>
-        </div>
-        <div class='info-card'>
-            <p class='text-lg font-bold'>Humidity</p>
-            <p class='text-2xl'>${humidity}%</p>
-        </div>
-        <div class='info-card'>
-            <p class='text-lg font-bold'>Visibility</p>
-            <p class='text-2xl'>${visibilityKm}km</p>
-        </div>
-        `
-
-        // Append to results
-        results.appendChild(info);
     }
 })
