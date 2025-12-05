@@ -9,7 +9,72 @@
     <script src="./app.js"></script>
 </head>
 
-<body class="min-sc">
+<body class="min-h-screen flex flex-col items-center bg-[#0F171E]">
+    <header class="bg-[#1A242F] p-4 w-full">
+        <nav class="flex flex-row items-center justify-between text-white text-2xl px-1 md:px-8 py-2 md:py-4">
+            <div class="flex flex-row gap-2 px-2 items-center text-xl md:text-3xl">
+                <ion-icon class="" name="film-outline"></ion-icon>
+                <p>Movie Search App</p>
+            </div>
+            <div>
+                <form class="bg-white py-2 px-5 md:px-8 flex flex-row items-center gap-2" action="#">
+                    <input class="text-gray-300 italic text-lg outline-0" id="movieSearchInput" placeholder="Search..."
+                        type="search">
+                    <button class="text-black mt-2" type="submit"><ion-icon name="search-outline"></ion-icon></button>
+                </form>
+            </div>
+            <div class="hidden md:block">
+                <a href="#"><ion-icon name="person-circle-outline"></ion-icon> Login</a>
+            </div>
+        </nav>
+    </header>
+    <main class="container flex flex-col pt-10 md:pt-16 px-8 md:px-10">
+        <div class="flex flex-col space-y-4">
+            <div class="flex flex-row gap-4 items-center">
+                <h1 class="underline text-white text-3xl">Trending</h1>
+                <div>
+                    <a href="#">
+                        <button autofocus data-type="movie"
+                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                            id="trendingMoviesBtn">Movies</button>
+                    </a>
+                    <a href="#">
+                        <button data-type="tv"
+                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                            id="trendingTvShowsBtn">Tv
+                            Shows</button>
+                    </a>
+                </div>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="trending">
+
+            </div>
+        </div>
+        <div class="flex flex-col space-y-4 mt-12">
+            <div class="flex flex-row gap-4 items-center">
+                <h1 class="underline text-white text-3xl">Top Rated</h1>
+                <div>
+                    <a href="#">
+                        <button autofocus data-type="movie"
+                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                            id="topRatedmoviesBtn">Movies</button>
+                    </a>
+                    <a href="#">
+                        <button data-type="tv"
+                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                            id="topRatedTvShowsBtn">Tv
+                            Shows</button>
+                    </a>
+                </div>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="topRated">
+
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>
