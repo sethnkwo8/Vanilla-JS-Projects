@@ -3,6 +3,6 @@
 @utility info-card {
   @apply rounded-lg shadow-2xl px-8 py-6 text-center 
          hover:scale-105 hover:bg-[#6CA4EC] hover:-translate-y-2 
-         ease-in-out duration-300 transition-all gri;
+         ease-in-out duration-300 transition-all;
 }
 
