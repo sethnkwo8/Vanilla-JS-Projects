@@ -23,7 +23,7 @@
                     <button class="text-black mt-2" type="submit"><ion-icon name="search-outline"></ion-icon></button>
                 </form>
             </div>
-            <div class="hidden md:block">
+            <div class="hidden lg:block">
                 <a href="#"><ion-icon name="person-circle-outline"></ion-icon> Login</a>
             </div>
         </nav>
@@ -33,17 +33,13 @@
             <div class="flex flex-row gap-4 items-center">
                 <h1 class="underline text-white text-3xl">Trending</h1>
                 <div>
-                    <a href="#">
-                        <button autofocus data-type="movie"
-                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
-                            id="trendingMoviesBtn">Movies</button>
-                    </a>
-                    <a href="#">
-                        <button data-type="tv"
-                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
-                            id="trendingTvShowsBtn">Tv
-                            Shows</button>
-                    </a>
+                    <button data-type="movie"
+                        class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                        id="trendingMoviesBtn" type="button">Movies</button>
+                    <button data-type="tv"
+                        class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                        id="trendingTvShowsBtn" type="button">Tv
+                        Shows</button>
                 </div>
             </div>
             <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="trending">
@@ -54,17 +50,13 @@
             <div class="flex flex-row gap-4 items-center">
                 <h1 class="underline text-white text-3xl">Top Rated</h1>
                 <div>
-                    <a href="#">
-                        <button autofocus data-type="movie"
-                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
-                            id="topRatedmoviesBtn">Movies</button>
-                    </a>
-                    <a href="#">
-                        <button data-type="tv"
-                            class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
-                            id="topRatedTvShowsBtn">Tv
-                            Shows</button>
-                    </a>
+                    <button data-type="movie"
+                        class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                        id="topRatedMoviesBtn" type="button">Movies</button>
+                    <button data-type="tv"
+                        class="px-4 py-2 text-white bg-[#212529] text-xl rounded-lg shadow-lg focus:outline-0 focus:bg-[#79C142]"
+                        id="topRatedTvShowsBtn" type="button">Tv
+                        Shows</button>
                 </div>
             </div>
             <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="topRated">
