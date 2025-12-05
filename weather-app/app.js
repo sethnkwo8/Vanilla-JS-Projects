@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create div for info cards
         const info = document.createElement('div');
         info.id = 'info-cards';
-        info.classList.add('flex', 'flex-row', 'items-center', 'justify-between', 'w-1/2');
+        info.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-4', 'gap-4', 'w-full');
 
         // Add info cards
         info.innerHTML = `
