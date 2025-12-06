@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsSearchForm = document.querySelector('#resultsSearchForm');
     const resultsSearchInput = document.querySelector('#resultsSearchInput');
     const results = document.querySelector('#results');
+    const loading = document.querySelector('#loading');
 
     resultsSearchForm.addEventListener('submit', async (e) => {
         e.preventDefault();

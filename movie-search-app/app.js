@@ -1,6 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const APIKey = '92cb96b17b6ea594ade0b3fe45b93e78';
+    const APIKey = '92cb96b17b6ea594ade0b3fe45b93e78'; // API key
+
+    // Get movie search elements
+    const movieSearchForm = document.querySelector('#movieSearchForm');
     const movieSearchInput = document.querySelector('#movieSearchInput');
+
+    // Get sections
+    const trendingSection = document.querySelector('#trendingSection');
+    const topRatedSection = document.querySelector('#topRatedSection');
+    const searchResultsSection = document.querySelector('#searchResultsSection');
+
+    // Get search results elements
+    const searchResults = document.querySelector('#searchResults');
+    const searchResultsName = document.querySelector('#searchResultsName');
+
+    // Get trending elements
+    const trendingResults = document.querySelector('#trendingResults');
+    const trendingTvShowsBtn = document.querySelector('#trendingTvShowsBtn');
+    const trendingMoviesBtn = document.querySelector('#trendingMoviesBtn');
+
+    // Get loading spinner div
+    const trendingLoading = document.querySelector('#trendingLoading');
+    const topRatedLoading = document.querySelector('#topRatedLoading');
+    const searchResultsLoading = document.querySelector('#searchResultsLoading');
+
+    // Get top rated elements
+    const topRatedResults = document.querySelector('#topRatedResults');
+    const topRatedTvShowsBtn = document.querySelector('#topRatedTvShowsBtn');
+    const topRatedMoviesBtn = document.querySelector('#topRatedMoviesBtn');
 
     // Change search bar font to black when typing
     movieSearchInput.addEventListener('input', (e) => {
@@ -14,11 +41,80 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Display Trending results
-    const trending = document.querySelector('#trending');
-    const trendingTvShowsBtn = document.querySelector('#trendingTvShowsBtn');
-    const trendingMoviesBtn = document.querySelector('#trendingMoviesBtn');
-    loadTrending();
+    // Function to fetch search results
+    async function fetchSearchResults(apikey, query) {
+        try {
+            const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apikey}&query=${query}`);
+            if (!response.ok) {
+                throw new Error('Error fetching data');
+            }
+            const data = await response.json();
+            return data;
+        }
+        catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
+    // Function to load search results
+    function loadSearchResults() {
+        movieSearchForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            // Hide trending and top rated sections
+            trendingSection.classList.add('hidden');
+            topRatedSection.classList.add('hidden');
+
+            // Display search results section
+            searchResultsSection.classList.remove('hidden');
+            searchResultsSection.classList.add('flex', 'flex-col', 'space-y-4', 'mt-12');
+
+            // Clear previous search results
+            searchResults.innerHTML = '';
+
+            // Display loading spinner
+            searchResultsLoading.classList.remove('hidden');
+            searchResultsLoading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4', 'pb-4');
+
+            // Get search query
+            const query = encodeURIComponent(movieSearchInput.value)
+
+            const data = await fetchSearchResults(APIKey, query);
+
+            // Title
+            searchResultsName.textContent = `Results for '${movieSearchInput.value}'`;
+
+            // Create card for each result
+            data.results.forEach(result => {
+                const movieCard = document.createElement('div');
+
+                // Fallback for poster path 
+                const poster = result.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                    : 'assets/film.png';
+
+                movieCard.innerHTML = `
+                <a class='movie-card' href='javascript:void(0)'>
+                    <div>
+                        <img src='${poster}' alt='${result.title || result.name}'>
+                    </div>
+                    <div>
+                        <p><span class='font-bold text-xl'>${result.title || result.name}</span>  . <span class='text-sm'>${result.release_date ?? result.first_air_date ?? ''}</span></p>
+                    </div>
+                </a>`;
+
+                // Append card to div
+                searchResults.append(movieCard);
+            });
+
+            // Clear search input
+            movieSearchInput.value = '';
+
+            // Hide loading spinner
+            searchResultsLoading.classList.add('hidden');
+            searchResultsLoading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
+        });
+    }
 
     // Function to fetch trending movies and tv shows
     async function fetchTrending(apikey, type) {
@@ -34,62 +130,93 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
             return null
         }
-    }
+    };
 
     // Function to add trending movies and tv shows
     function loadTrending() {
-        trending.innerHTML = '';
+        trendingResults.innerHTML = '';
 
         // Display trending movies when movies button is clicked
         trendingMoviesBtn.addEventListener('click', async function () {
             this.focus();
-            trending.innerHTML = '';
+            trendingResults.innerHTML = '';
+
+            // Display loading spinner
+            trendingLoading.classList.remove('hidden');
+            trendingLoading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
+
             const data = await fetchTrending(APIKey, this.dataset.type);
 
+            // Create card for each result
             data.results.slice(0, 10).forEach(result => {
                 const movieCard = document.createElement('div');
+
+                // Fallback for poster path 
+                const poster = result.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                    : 'assets/film.png';
+
                 movieCard.innerHTML = `
-                <a class='movie-card' href='#'>
+                <a class='movie-card' href='javascript:void(0)'>
                     <div>
-                        <img src='https://image.tmdb.org/t/p/w500/${result.poster_path}' alt='${result.title}'>
+                        <img src='${poster}' alt='${result.title}'>
                     </div>
                     <div>
-                        <p><span class='font-bold text-xl'>${result.title}</span>  . <span class='text-sm'>${result.release_date}</span></p>
+                        <p><span class='font-bold text-xl'>${result.title}</span>  . <span class='text-sm'>${result.release_date ?? ''}</span></p>
                     </div>
                 </a>`;
-                trending.append(movieCard);
+
+                // Append card to div
+                trendingResults.append(movieCard);
             });
+
+            // Hide loading spinner
+            trendingLoading.classList.add('hidden');
+            trendingLoading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
         })
 
         // Display trending tv shows whentv shows button is clicked
         trendingTvShowsBtn.addEventListener('click', async function () {
             this.focus();
-            trending.innerHTML = '';
+            trendingResults.innerHTML = '';
+
+            // Display loading spinner
+            trendingLoading.classList.remove('hidden');
+            trendingLoading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
+
             const data = await fetchTrending(APIKey, this.dataset.type);
 
+            // Create card for each result
             data.results.slice(0, 10).forEach(result => {
                 const movieCard = document.createElement('div');
-                movieCard.classList.add('movie-card');
+
+                // Fallback for poster path 
+                const poster = result.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                    : 'assets/film.png';
+
                 movieCard.innerHTML = `
-                <div>
-                    <img src='https://image.tmdb.org/t/p/w500/${result.poster_path}' alt='${result.name}'>
-                </div>
-                <div>
-                    <p><span class='font-bold text-xl'>${result.name}</span>  . <span class='text-sm'>${result.first_air_date}</span></p>
-                </div>`;
-                trending.append(movieCard);
+                <a class='movie-card' href='javascript:void(0)'>
+                    <div>
+                        <img src='${poster}' alt='${result.name}'>
+                    </div>
+                    <div>
+                        <p><span class='font-bold text-xl'>${result.name}</span>  . <span class='text-sm'>${result.first_air_date ?? ''}</span></p>
+                    </div>
+                </a>`;
+
+                // Append card to div
+                trendingResults.append(movieCard);
             });
+
+            // Hide loading spinner
+            trendingLoading.classList.add('hidden');
+            trendingLoading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
         })
 
         // Trending movies displayed by default
         trendingMoviesBtn.click();
-    }
-
-    // Display Top rated results
-    const topRated = document.querySelector('#topRated');
-    const topRatedTvShowsBtn = document.querySelector('#topRatedTvShowsBtn');
-    const topRatedMoviesBtn = document.querySelector('#topRatedMoviesBtn');
-    loadTopRated();
+    };
 
     // Function to fetch top rated movies and tv shows
     async function fetchTopRated(apikey, type) {
@@ -105,54 +232,95 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
             return null
         }
-    }
+    };
 
     // Function to add top rated movies and tv shows
     function loadTopRated() {
-        topRated.innerHTML = '';
+        topRatedResults.innerHTML = '';
 
         // Display top rated movies when movies button is clicked
         topRatedMoviesBtn.addEventListener('click', async function () {
             this.focus();
-            topRated.innerHTML = '';
+            topRatedResults.innerHTML = '';
+
+            // Display loading spinner
+            topRatedLoading.classList.remove('hidden');
+            topRatedLoading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
+
             const data = await fetchTopRated(APIKey, this.dataset.type);
 
+            // Create card for each result
             data.results.slice(0, 10).forEach(result => {
                 const movieCard = document.createElement('div');
+
+                // Fallback for poster path 
+                const poster = result.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                    : 'assets/film.png';
+
                 movieCard.innerHTML = `
                 <a class='movie-card' href='#'>
                     <div>
-                        <img src='https://image.tmdb.org/t/p/w500/${result.poster_path}' alt='${result.title}'>
+                        <img src='${poster}' alt='${result.title}'>
                     </div>
                     <div>
-                        <p><span class='font-bold text-xl'>${result.original_title}</span>  . <span class='text-sm'>${result.release_date}</span></p>
+                        <p><span class='font-bold text-xl'>${result.original_title}</span>  . <span class='text-sm'>${result.release_date ?? ''}</span></p>
                     </div>
                 </a>`;
-                topRated.append(movieCard);
+
+                // Append card to div
+                topRatedResults.append(movieCard);
             });
+
+            // Hide loading spinner
+            topRatedLoading.classList.add('hidden');
+            topRatedLoading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
         })
 
         // Display top rated tv shows when tv shows button is clicked
         topRatedTvShowsBtn.addEventListener('click', async function () {
             this.focus();
-            topRated.innerHTML = '';
+            topRatedResults.innerHTML = '';
+
+            // Display loading spinner
+            topRatedLoading.classList.remove('hidden');
+            topRatedLoading.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
+
             const data = await fetchTopRated(APIKey, this.dataset.type);
 
+            // Create card for each result
             data.results.slice(0, 10).forEach(result => {
                 const movieCard = document.createElement('div');
-                movieCard.classList.add('movie-card');
+
+                // Fallback for poster path 
+                const poster = result.poster_path
+                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                    : 'assets/film.png';
+
                 movieCard.innerHTML = `
-                <div>
-                    <img src='https://image.tmdb.org/t/p/w500/${result.poster_path}' alt='${result.original_name}'>
-                </div>
-                <div>
-                    <p><span class='font-bold text-xl'>${result.original_name}</span>  . <span class='text-sm'>${result.first_air_date}</span></p>
-                </div>`;
-                topRated.append(movieCard);
+                <a class='movie-card' href='javascript:void(0)'>
+                    <div>
+                        <img src='${poster}' alt='${result.original_name}'>
+                    </div>
+                    <div>
+                        <p><span class='font-bold text-xl'>${result.original_name}</span>  . <span class='text-sm'>${result.first_air_date ?? ''}</span></p>
+                    </div>
+                </a>`;
+
+                // Append card to div
+                topRatedResults.append(movieCard);
             });
+
+            // Hide loading spinner
+            topRatedLoading.classList.add('hidden');
+            topRatedLoading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
         })
 
         // Top rated movies displayed by default
         topRatedMoviesBtn.click();
-    }
+    };
+
+    loadTrending(); // Run function for trending section
+    loadTopRated(); // Run function for top rated section
+    loadSearchResults(); // Run function for search results
 })

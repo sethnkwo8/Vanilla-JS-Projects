@@ -17,7 +17,8 @@
                 <p>Movie Search App</p>
             </div>
             <div>
-                <form class="bg-white py-2 px-5 md:px-8 flex flex-row items-center gap-2" action="#">
+                <form class="bg-white py-2 px-5 md:px-8 flex flex-row items-center gap-2" id="movieSearchForm"
+                    action="#">
                     <input class="text-gray-300 italic text-lg outline-0" id="movieSearchInput" placeholder="Search..."
                         type="search">
                     <button class="text-black mt-2" type="submit"><ion-icon name="search-outline"></ion-icon></button>
@@ -29,7 +30,7 @@
         </nav>
     </header>
     <main class="container flex flex-col pt-10 md:pt-16 px-8 md:px-10">
-        <div class="flex flex-col space-y-4">
+        <div class="flex flex-col space-y-4" id="trendingSection">
             <div class="flex flex-row gap-4 items-center">
                 <h1 class="underline text-white text-3xl">Trending</h1>
                 <div>
@@ -42,11 +43,15 @@
                         Shows</button>
                 </div>
             </div>
-            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="trending">
+            <div id="trendingLoading" class="hidden">
+                <div class="w-12 h-12 border-4 border-[#79C142] border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-xl text-white">Fetching data...</p>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="trendingResults">
 
             </div>
         </div>
-        <div class="flex flex-col space-y-4 mt-12">
+        <div class="flex flex-col space-y-4 mt-12" id="topRatedSection">
             <div class="flex flex-row gap-4 items-center">
                 <h1 class="underline text-white text-3xl">Top Rated</h1>
                 <div>
@@ -59,7 +64,23 @@
                         Shows</button>
                 </div>
             </div>
-            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="topRated">
+            <div id="topRatedLoading" class="hidden">
+                <div class="w-12 h-12 border-4 border-[#79C142] border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-xl text-white">Fetching data...</p>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5  items-center" id="topRatedResults">
+
+            </div>
+        </div>
+        <div class="hidden" id="searchResultsSection">
+            <div class="flex flex-row gap-4 items-center">
+                <h1 class="text-white text-3xl" id="searchResultsName"></h1>
+            </div>
+            <div id="searchResultsLoading" class="hidden">
+                <div class="w-12 h-12 border-4 border-[#79C142] border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-xl text-white">Fetching data...</p>
+            </div>
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 items-center" id="searchResults">
 
             </div>
         </div>
