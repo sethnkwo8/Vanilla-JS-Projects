@@ -26,16 +26,6 @@ vanilla-js-projects/
 │   └── input.css
 │   └── output.css
 │   └── app.js
-│── counter-app/      # Counter App
-│   └── index.html
-│   └── input.css
-│   └── output.css
-│   └── app.js
-│── notes-app/      # Notes App
-│   └── index.html
-│   └── input.css
-│   └── output.css
-│   └── app.js
 ```
 
 # 🛠 Technologies Used
@@ -73,21 +63,6 @@ vanilla-js-projects/
  - ✔️ Search by city
 
 ---
-
-### **4. Counter App**
- - ✔️ Increment
- - ✔️ Decrement
- - ✔️ Reset
- - ✔️ Update UI in real-time
-
----
-
-### **5. Notes App**
- - ✔️ Add note
- - ✔️ Delete note
- - ✔️ Edit note
- - ✔️ Save notes to LocalStorage
- - ✔️ Search notes
 
 # 🚀 How to Run
 
