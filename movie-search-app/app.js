@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const APIKey = '92cb96b17b6ea594ade0b3fe45b93e78'; // API key
 
+    const main = document.querySelector('#main');
+
     // Get movie search elements
     const movieSearchForm = document.querySelector('#movieSearchForm');
     const movieSearchInput = document.querySelector('#movieSearchInput');
@@ -34,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const topRatedResults = document.querySelector('#topRatedResults');
     const topRatedTvShowsBtn = document.querySelector('#topRatedTvShowsBtn');
     const topRatedMoviesBtn = document.querySelector('#topRatedMoviesBtn');
+
+    // Get card info section
+    const cardInfo = document.querySelector('#card-info');
 
     let currentPage = 1;
     let totalPages = 1;
@@ -92,7 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </p>
                     </div>
                 </a>`;
+
             searchResults.append(movieCard);
+
+            movieCard.addEventListener('click', () => {
+                displayCardInfo(result, poster);
+            });
         });
     }
 
@@ -112,6 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch & render wrapper
     // ----------------------
     async function fetchAndRender(query, page = 1) {
+        searchResults.innerHTML = '';
+
+        pagination.classList.add('hidden');
+
         searchResultsLoading.classList.remove('hidden');
         searchResultsLoading.classList.add(
             'flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4', 'pb-4'
@@ -134,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
         searchResultsLoading.classList.remove(
             'flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4'
         );
+
+        pagination.classList.remove('hidden');
     }
 
     // ----------------------
@@ -388,8 +404,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Display top rated tv shows when tv shows button is clicked
     function setUpTopRatedShowsListener() {
-        // Display top rated tv shows when tv shows button is clicked
         topRatedTvShowsBtn.addEventListener('click', async function () {
             this.focus();
             topRatedResults.innerHTML = '';
@@ -410,6 +426,58 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function displayCardInfo(data, poster) {
+        // Hide main search UI
+        searchResults.classList.add('hidden');
+        pagination.classList.add('hidden');
+        searchResultsName.classList.add('hidden');
+
+        // Show detail card with initial opacity and translate for animation
+        cardInfo.classList.remove('hidden');
+        cardInfo.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-500', 'ease-out');
+        main.classList.add('justify-center');
+
+        // Populate card info
+        cardInfo.innerHTML = `
+            <div class="mb-4">
+                <a class='underline text-white text-lg' href='#' id='back'>Back</a>
+            </div>
+            <div class='flex flex-col md:flex-row gap-6 items-start'>
+                <div class='shrink-0'>
+                    <img src='${poster}' alt='${data.title || data.name}' class="rounded-lg shadow-lg">
+                </div>
+                <div class='flex flex-col space-y-2 p-2'>
+                    <h1 class='text-white font-bold text-2xl'>${data.title || data.name}</h1>
+                    <p class='text-white text-lg'>${data.overview || 'No description available.'}</p>
+                    <p class='text-white text-md font-semibold'>Release: ${data.release_date ?? data.first_air_date ?? 'N/A'}</p>
+                </div>
+            </div>
+        `;
+
+        // Trigger the animation after next tick
+        requestAnimationFrame(() => {
+            cardInfo.classList.remove('opacity-0', 'translate-y-10');
+        });
+
+        // Back button listener
+        const back = document.querySelector('#back');
+        back.addEventListener('click', () => {
+            // Animate out before hiding
+            cardInfo.classList.add('opacity-0', 'translate-y-10');
+            setTimeout(() => {
+                cardInfo.innerHTML = '';
+                cardInfo.classList.add('hidden');
+                cardInfo.classList.remove('opacity-0', 'translate-y-10', 'transition-all', 'duration-500', 'ease-out');
+
+                searchResults.classList.remove('hidden');
+                pagination.classList.remove('hidden');
+                searchResultsName.classList.remove('hidden');
+
+                main.classList.remove('justify-center');
+            }, 300); // match part of transition duration
+        });
+    }
+
     // Run functions for trending section
     setUpTrendingMoviesListener();
     setUpTrendingShowsListener();
@@ -418,6 +486,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setUpTopRatedMoviesListener();
     setUpTopRatedShowsListener();
 
-    // Run function for search results
-    setUpSearchListener();
 })
