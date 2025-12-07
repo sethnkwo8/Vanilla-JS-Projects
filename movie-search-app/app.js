@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to fetch search results
-    async function fetchSearchResults(apikey, query) {
+    async function fetchSearchResults(apikey, query, page = 1) {
         try {
-            const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apikey}&query=${query}`);
+            const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${apikey}&query=${query}&page=${page}`);
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
@@ -57,8 +57,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to load search results
-    function loadSearchResults() {
+    // Function to render results
+    function renderSearchResults(data) {
+
+        // Clear previous search results
+        searchResults.innerHTML = '';
+
+        // Create card for each result
+        data.results.forEach(result => {
+
+            // Fallback for poster path 
+            const poster = result.poster_path
+                ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
+                : 'assets/film.png';
+
+            const movieCard = document.createElement('div');
+
+            movieCard.innerHTML = `
+            <a class='movie-card' href='javascript:void(0)'>
+                <div>
+                    <img src='${poster}' alt='${result.title || result.name}'>
+                </div>
+                <div>
+                    <p><span class='font-bold text-xl'>${result.title || result.name}</span>  . <span class='text-sm'>${result.release_date ?? result.first_air_date ?? ''}</span></p>
+                </div>
+            </a>`;
+
+            // Append card to div
+            searchResults.append(movieCard);
+        });
+    }
+
+    // Event listener function
+    function setUpSearchListener() {
         movieSearchForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             // Hide trending and top rated sections
@@ -68,9 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Display search results section
             searchResultsSection.classList.remove('hidden');
             searchResultsSection.classList.add('flex', 'flex-col', 'space-y-4', 'mt-12');
-
-            // Clear previous search results
-            searchResults.innerHTML = '';
 
             // Display loading spinner
             searchResultsLoading.classList.remove('hidden');
@@ -82,30 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await fetchSearchResults(APIKey, query);
 
             // Title
-            searchResultsName.textContent = `Results for '${movieSearchInput.value}'`;
-
-            // Create card for each result
-            data.results.forEach(result => {
-                const movieCard = document.createElement('div');
-
-                // Fallback for poster path 
-                const poster = result.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
-                    : 'assets/film.png';
-
-                movieCard.innerHTML = `
-                <a class='movie-card' href='javascript:void(0)'>
-                    <div>
-                        <img src='${poster}' alt='${result.title || result.name}'>
-                    </div>
-                    <div>
-                        <p><span class='font-bold text-xl'>${result.title || result.name}</span>  . <span class='text-sm'>${result.release_date ?? result.first_air_date ?? ''}</span></p>
-                    </div>
-                </a>`;
-
-                // Append card to div
-                searchResults.append(movieCard);
-            });
+            if (data) {
+                searchResultsName.textContent = `Results for '${movieSearchInput.value}'`;
+                renderSearchResults(data);
+            }
 
             // Clear search input
             movieSearchInput.value = '';
@@ -175,6 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
             trendingLoading.classList.remove('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-4');
         })
 
+        // Function for trending buttons event listeners
+        function setUpTrendingListener() {
+
+        }
+
         // Display trending tv shows whentv shows button is clicked
         trendingTvShowsBtn.addEventListener('click', async function () {
             this.focus();
@@ -191,9 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const movieCard = document.createElement('div');
 
                 // Fallback for poster path 
-                const poster = result.poster_path
-                    ? `https://image.tmdb.org/t/p/w500/${result.poster_path}`
-                    : 'assets/film.png';
+                const poster = `https://image.tmdb.org/t/p/w500/${result.poster_path ?? result.profile_path ?? ''}` || 'assets/film.png';
 
                 movieCard.innerHTML = `
                 <a class='movie-card' href='javascript:void(0)'>
@@ -322,5 +333,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadTrending(); // Run function for trending section
     loadTopRated(); // Run function for top rated section
-    loadSearchResults(); // Run function for search results
+    setUpSearchListener(); // Run function for search results
 })

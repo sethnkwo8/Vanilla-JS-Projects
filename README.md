@@ -61,7 +61,7 @@ vanilla-js-projects/
  - ✔️ Uses Fetch API
  - ✔️ Async/Await
  - ✔️ Event Loop
- - ✔️ Search movies using OMDb API
+ - ✔️ Search movies using TMDb API
  - ✔️ Clean Tailwind UI
 
 ---
